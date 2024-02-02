@@ -6,6 +6,20 @@
         <label
           for="landlord_name"
           class="block text-sm font-medium text-gray-700"
+          >ชื่อแนะนำ</label
+        >
+        <input
+          v-model="formData.ref_tel"
+          type="text"
+          id="ref_tel"
+          name="ref_tel"
+          class="mt-1 p-2 w-full border rounded-md"
+        />
+      </div>
+      <div class="mb-4">
+        <label
+          for="landlord_name"
+          class="block text-sm font-medium text-gray-700"
           >ชื่อผู้ให้เช่า</label
         >
         <input
@@ -91,7 +105,9 @@
           class="mt-1 p-2 w-full border rounded-md"
         />
       </div>
-      <div class="w-full flex flex-col py-2 items-center gap-y-4 justify-center">
+      <div
+        class="w-full flex flex-col py-2 items-center gap-y-4 justify-center"
+      >
         <div class="items-center">
           <label for="landlord_province" class="pr-2"> จังหวัด</label>
           <InputText type="text" v-model="formData.landlord_province" />
@@ -105,9 +121,7 @@
           <InputText type="text" v-model="formData.landlord_subdistrict" />
         </div>
         <div class="flex items-center">
-          <label for="landlord_postcode" class="w-6rem"
-            >ไปรษณีย์</label
-          >
+          <label for="landlord_postcode" class="w-6rem">ไปรษณีย์</label>
           <InputText type="text" v-model="formData.landlord_postcode" />
         </div>
       </div>
@@ -115,6 +129,7 @@
         <button
           type="submit"
           class="bg-blue-500 text-white px-4 py-2 rounded-md"
+          @click="submitForm"
         >
           ลงทะเบียน
         </button>
@@ -132,6 +147,7 @@ const amphuredropdown = ref([]);
 const tambondropdown = ref([]);
 
 const formData = ref({
+  ref_tel: "",
   landlord_name: "",
   landlord_phone: "",
   landlord_iden: "",
@@ -208,11 +224,17 @@ const getamphure = async (type) => {
   }
 };
 
-const submitForm = () => {
-  console.log("Form submitted:", formData.value);
-  // เพิ่มโค้ดส่วนนี้เพื่อทำการส่งข้อมูลไปยังเซิร์ฟเวอร์ (API) หรือทำการจัดเก็บข้อมูลตามที่ต้องการ
+const submitForm = async () => {
+  try {
+    const response = await axios.post(
+      `${import.meta.env.VITE_VUE_APP_TOSSAGUN_SHOP}/register/investor`,
+      formData
+    );
+    console.log("response : ", response.data);
+  } catch (error) {
+    console.log("error", error);
+  }
 };
-
 getprovince();
 </script>
 

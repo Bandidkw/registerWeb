@@ -58,7 +58,7 @@ const placeregister = async () => {
     );
     const res = response.data.data;
     userall.value = res;
-    console.log("userall.value : ", userall.value);
+    console.log("userall : ", userall.value);
     setTimeout(() => {
       router.push("/placeregister");
     }, 2000);
