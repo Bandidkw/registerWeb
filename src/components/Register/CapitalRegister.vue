@@ -63,7 +63,7 @@
       </span>
       </div>
 
-      <button  class="w-full py-3 mt-6 font-medium tracking-widest text-white uppercase bg-black shadow-lg focus:outline-none hover:bg-gray-900 hover:shadow-none">
+      <button @click="registerInvestor"   class="w-full py-3 mt-6 font-medium tracking-widest text-white uppercase bg-black shadow-lg focus:outline-none hover:bg-gray-900 hover:shadow-none">
        สมัคร
       </button>
     </div>
@@ -72,10 +72,17 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
+  
   data() {
     return {
       // ข้อมูลนักลงทุน
+      ref_tel: '',
+      investor_name: '',
+      investor_phone: '',
+      investor_iden: '',
       investor_email: '',
       investor_password: '',
       investor_address: '',
@@ -84,43 +91,17 @@ export default {
       investor_province: '',
       investor_postcode: '',
 
-      // ข้อมูลสมัครสมาชิก
-      registerError: null,  // ใช้เก็บข้อความ error จากการสมัคร
     };
   },
   methods: {
-    async checkExistingPhoneNumber() {
-      try {
-        const response = await this.$axios.get(`${process.env.VUE_APP_API}/platform/member`, {
-          params: {
-            tel: this.investor_tel,
-          },
-        });
-
-        if (response.data.data.length > 0) {
-          // มีเบอร์อยู่แล้ว
-          const confirmResult = confirm('มีเบอร์นี้อยู่แล้ว คุณต้องการที่จะสมัครใช่หรือไม่?');
-
-          if (confirmResult) {
-            // ทำการสมัคร
-            this.registerInvestor();
-          } else {
-            // ไม่ทำการสมัคร
-            this.registerError = 'ยกเลิกการสมัคร';
-          }
-        } else {
-          // ไม่มีเบอร์อยู่แล้ว ทำการสมัคร
-          this.registerInvestor();
-        }
-      } catch (error) {
-        console.error('Error checking existing phone number:', error);
-        this.registerError = 'เกิดข้อผิดพลาดในการตรวจสอบเบอร์โทรศัพท์';
-      }
-    },
+   
     async registerInvestor() {
       try {
-        // เตรียมข้อมูลสำหรับส่งไปยัง API
         const requestData = {
+          ref_tel: this.ref_tel,
+          investor_name: this.investor_name,
+          investor_phone: this.investor_phone,
+          investor_iden: this.investor_iden,
           investor_email: this.investor_email,
           investor_password: this.investor_password,
           investor_address: this.investor_address,
@@ -130,21 +111,15 @@ export default {
           investor_postcode: this.investor_postcode,
         };
 
-        // เรียก API สมัครนักลงทุน
-        const response = await this.$axios.post(`${process.env.VUE_APP_API}/register/investor`, requestData);
+        const response = await axios.post(`${import.meta.env.VITE_VUE_APP_TOSSAGUN_SHOP}/register/investor`, requestData);
 
-        // ทำสิ่งที่คุณต้องการหลังจากสมัครสำเร็จ
-        console.log('Registration successful:', response.data);
-        // เช่น ไปยังหน้าถัดไป แสดงข้อความ ฯลฯ
+        console.log('Registration successful:', response.data.data);
       } catch (error) {
         console.error('Error registering investor:', error);
         this.registerError = 'เกิดข้อผิดพลาดในการสมัคร';
       }
     },
-    onSubmit() {
-      this.registerError = null;  // รีเซ็ตข้อความ error ทุกครั้งที่กดปุ่มสมัคร
-      this.checkExistingPhoneNumber();
-    },
+ 
   },
 };
 </script>
