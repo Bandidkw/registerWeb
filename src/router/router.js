@@ -9,8 +9,8 @@ import PlaceRegister from "../components/Register/PlaceRegister.vue";
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
-    { path: "/", component: Register },
-    { path: "/pageview", component: PageView },
+    { path: "/register", component: Register },
+    { path: "/", component: PageView },
     { path: "/allregister", component: AllRegister },
     { path: "/capitalregister", component: CapitalRegister },
     { path: "/placeregister", component: PlaceRegister },
