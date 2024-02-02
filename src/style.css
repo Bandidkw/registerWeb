@@ -1,0 +1,15 @@
+/* src/main.css */
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+
+:root {
+  font-family: Kanit, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-weight: normal;
+}
+
+#app {
+  font-family: Kanit, system-ui, Avenir, Helvetica, Arial, sans-serif;
+}
+
