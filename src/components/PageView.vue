@@ -41,7 +41,7 @@ const capitalregister = () => {
   router.push("/capitalregister");
 };
 const placeregister = () => {
-  router.push("/placeregister");
+  router.push("/register");
 };
 </script>
 

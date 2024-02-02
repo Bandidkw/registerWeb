@@ -1,150 +1,155 @@
 <template>
-  <div class="max-w-md mx-auto mt-8">
-    <h2 class="text-2xl font-bold mb-4">ลงทะเบียน</h2>
-    <form @submit.prevent="submitForm">
-      <div class="mb-4">
-        <label
-          for="landlord_name"
-          class="block text-sm font-medium text-gray-700"
-          >ชื่อแนะนำ</label
-        >
-        <input
-          v-model="formData.ref_tel"
-          type="text"
-          id="ref_tel"
-          name="ref_tel"
-          class="mt-1 p-2 w-full border rounded-md"
-        />
-      </div>
-      <div class="mb-4">
-        <label
-          for="landlord_name"
-          class="block text-sm font-medium text-gray-700"
-          >ชื่อผู้ให้เช่า</label
-        >
-        <input
-          v-model="formData.landlord_name"
-          type="text"
-          id="landlord_name"
-          name="landlord_name"
-          class="mt-1 p-2 w-full border rounded-md"
-        />
-      </div>
-
-      <div class="mb-4">
-        <label
-          for="landlord_phone"
-          class="block text-sm font-medium text-gray-700"
-          >เบอร์โทรศัพท์ผู้ให้เช่า</label
-        >
-        <input
-          v-model="formData.landlord_phone"
-          type="tel"
-          id="landlord_phone"
-          name="landlord_phone"
-          class="mt-1 p-2 w-full border rounded-md"
-        />
-      </div>
-
-      <div class="mb-4">
-        <label
-          for="landlord_iden"
-          class="block text-sm font-medium text-gray-700"
-          >เลขที่บัตรประจำตัวผู้ให้เช่า</label
-        >
-        <input
-          v-model="formData.landlord_iden"
-          type="text"
-          id="landlord_iden"
-          name="landlord_iden"
-          class="mt-1 p-2 w-full border rounded-md"
-        />
-      </div>
-
-      <div class="mb-4">
-        <label
-          for="landlord_email"
-          class="block text-sm font-medium text-gray-700"
-          >อีเมลผู้ให้เช่า</label
-        >
-        <input
-          v-model="formData.landlord_email"
-          type="email"
-          id="landlord_email"
-          name="landlord_email"
-          class="mt-1 p-2 w-full border rounded-md"
-        />
-      </div>
-
-      <div class="mb-4">
-        <label
-          for="landlord_password"
-          class="block text-sm font-medium text-gray-700"
-          >รหัสผ่านผู้ให้เช่า</label
-        >
-        <input
-          v-model="formData.landlord_password"
-          type="password"
-          id="landlord_password"
-          name="landlord_password"
-          class="mt-1 p-2 w-full border rounded-md"
-        />
-      </div>
-
-      <div class="mb-4">
-        <label
-          for="landlord_address"
-          class="block text-sm font-medium text-gray-700"
-          >ที่อยู่ผู้ให้เช่า</label
-        >
-        <input
-          v-model="formData.landlord_address"
-          type="text"
-          id="landlord_address"
-          name="landlord_address"
-          class="mt-1 p-2 w-full border rounded-md"
-        />
-      </div>
-      <div
-        class="w-full flex flex-col py-2 items-center gap-y-4 justify-center"
-      >
-        <div class="items-center">
-          <label for="landlord_province" class="pr-2"> จังหวัด</label>
-          <InputText type="text" v-model="formData.landlord_province" />
+  <div class="grid min-h-screen place-items-center">
+    <div class="w-11/12 p-12 bg-white sm:w-8/12 md:w-1/2 lg:w-5/12">
+      <h1 class="text-xl font-semibold">ลงทะเบียนมีที่ ไม่มีทุน</h1>
+      <div class="mt-6">
+        <div class="flex justify-between gap-3">
+          <span class="w-1/2">
+            <label class="block text-xs font-semibold text-gray-600 uppercase"
+              >เบอร์โทรศัพท์ผู้แนะนำ</label
+            >
+            <input
+              v-model="ref_tel"
+              type="tel"
+              placeholder="กรอกเบอร์โทรศัพท์ผู้แนะนำ"
+              class="block w-full p-3 mt-2 text-gray-700 bg-gray-200 appearance-none focus:outline-none focus:bg-gray-300 focus:shadow-inner"
+            />
+          </span>
+          <span class="w-1/2">
+            <label class="block text-xs font-semibold text-gray-600 uppercase"
+              >ชื่อ-นามสกุล</label
+            >
+            <input
+              v-model="landlord_name"
+              type="text"
+              placeholder="กรอกชื่อ-นามสกุล"
+              class="block w-full p-3 mt-2 text-gray-700 bg-gray-200 appearance-none focus:outline-none focus:bg-gray-300 focus:shadow-inner"
+            />
+          </span>
         </div>
-        <div class="items-center">
-          <label for="landlord_district" class="pr-2"> อำเภอ</label>
-          <InputText type="text" v-model="formData.landlord_district" />
+        <div class="flex justify-between gap-3">
+          <span class="w-1/2">
+            <label class="block text-xs font-semibold text-gray-600 uppercase"
+              >เบอร์โทร</label
+            >
+            <input
+              v-model="landlord_phone"
+              type="text"
+              placeholder="กรอกเบอร์โทร"
+              class="block w-full p-3 mt-2 text-gray-700 bg-gray-200 appearance-none focus:outline-none focus:bg-gray-300 focus:shadow-inner"
+            />
+          </span>
+          <span class="w-1/2">
+            <label class="block text-xs font-semibold text-gray-600 uppercase"
+              >เลขบัตรประชาชน</label
+            >
+            <input
+              v-model="landlord_iden"
+              type="text"
+              placeholder="กรอกเลขบัตรประชาชน"
+              class="block w-full p-3 mt-2 text-gray-700 bg-gray-200 appearance-none focus:outline-none focus:bg-gray-300 focus:shadow-inner"
+            />
+          </span>
         </div>
-        <div class="items-center">
-          <label for="landlord_subdistrict" class="pr-2"> ตำบล</label>
-          <InputText type="text" v-model="formData.landlord_subdistrict" />
+        <div class="flex justify-between gap-3">
+          <span class="w-1/2">
+            <label class="block text-xs font-semibold text-gray-600 uppercase"
+              >อีเมลล์</label
+            >
+            <input
+              v-model="landlord_email"
+              type="text"
+              placeholder="กรอกอีเมลล์"
+              class="block w-full p-3 mt-2 text-gray-700 bg-gray-200 appearance-none focus:outline-none focus:bg-gray-300 focus:shadow-inner"
+            />
+          </span>
+          <span class="w-1/2">
+            <label class="block text-xs font-semibold text-gray-600 uppercase"
+              >รหัสผ่าน</label
+            >
+            <input
+              v-model="landlord_password"
+              type="password"
+              placeholder="กรอกรหัสผ่าน"
+              class="block w-full p-3 mt-2 text-gray-700 bg-gray-200 appearance-none focus:outline-none focus:bg-gray-300 focus:shadow-inner"
+            />
+          </span>
         </div>
-        <div class="flex items-center">
-          <label for="landlord_postcode" class="w-6rem">ไปรษณีย์</label>
-          <InputText type="text" v-model="formData.landlord_postcode" />
+        <div class="flex justify-between gap-3">
+          <span class="w-1/2">
+            <label class="block text-xs font-semibold text-gray-600 uppercase"
+              >ที่อยู่</label
+            >
+            <input
+              v-model="landlord_address"
+              type="text"
+              placeholder="กรอกที่อยู่"
+              class="block w-full p-3 mt-2 text-gray-700 bg-gray-200 appearance-none focus:outline-none focus:bg-gray-300 focus:shadow-inner"
+            />
+          </span>
+          <span class="w-1/2">
+            <label class="block text-xs font-semibold text-gray-600 uppercase"
+              >ตำบล</label
+            >
+            <input
+              v-model="landlord_subdistrict"
+              type="password"
+              placeholder="กรอกตำบล"
+              class="block w-full p-3 mt-2 text-gray-700 bg-gray-200 appearance-none focus:outline-none focus:bg-gray-300 focus:shadow-inner"
+            />
+          </span>
         </div>
-      </div>
-      <div>
+
+        <div class="flex justify-between gap-3">
+          <span class="w-1/2">
+            <label class="block text-xs font-semibold text-gray-600 uppercase"
+              >อำเภอ</label
+            >
+            <input
+              v-model="landlord_district"
+              type="text"
+              placeholder="กรอกอำเภอ"
+              class="block w-full p-3 mt-2 text-gray-700 bg-gray-200 appearance-none focus:outline-none focus:bg-gray-300 focus:shadow-inner"
+            />
+          </span>
+          <span class="w-1/2">
+            <label class="block text-xs font-semibold text-gray-600 uppercase"
+              >จังหวัด</label
+            >
+            <input
+              v-model="landlord_province"
+              type="password"
+              placeholder="กรอกจังหวัด"
+              class="block w-full p-3 mt-2 text-gray-700 bg-gray-200 appearance-none focus:outline-none focus:bg-gray-300 focus:shadow-inner"
+            />
+          </span>
+          <span class="w-1/2">
+            <label class="block text-xs font-semibold text-gray-600 uppercase"
+              >รหัสไปรษณีย์</label
+            >
+            <input
+              v-model="landlord_postcode"
+              type="password"
+              placeholder="กรอกรหัสไปรษณีย์"
+              class="block w-full p-3 mt-2 text-gray-700 bg-gray-200 appearance-none focus:outline-none focus:bg-gray-300 focus:shadow-inner"
+            />
+          </span>
+        </div>
+
         <button
-          type="submit"
-          class="bg-blue-500 text-white px-4 py-2 rounded-md"
-          @click="submitForm"
+          @click="registerLandlord"
+          class="w-full py-3 mt-6 font-medium tracking-widest text-white uppercase bg-black shadow-lg focus:outline-none hover:bg-gray-900 hover:shadow-none"
         >
-          ลงทะเบียน
+          สมัคร
         </button>
       </div>
-    </form>
+    </div>
   </div>
 </template>
 
 <script setup>
 import axios from "axios";
 import { ref } from "vue";
-
-const provincedropdown = ref([]);
-const amphuredropdown = ref([]);
-const tambondropdown = ref([]);
 
 const formData = ref({
   ref_tel: "",
@@ -160,82 +165,18 @@ const formData = ref({
   landlord_postcode: "",
 });
 
-const getprovince = async () => {
-  try {
-    const province = await axios.get(
-      `${import.meta.env.VITE_VUE_APP_THAILAND}thailand/province`
-    );
-    provincedropdown.value = province.data;
-  } catch (error) {
-    console.log("error : ", error);
-  }
-};
-
-const getamphure = async (type) => {
-  try {
-    console.log("Type:", type);
-    console.log("Selected Province:", formData.value.landlord_province);
-    console.log("Selected District:", formData.value.landlord_district);
-    if (type === "amphure") {
-      const selectedProvinceObject = provincedropdown.value.find(
-        (province) => province.name_th === formData.value.landlord_province
-      );
-      if (selectedProvinceObject) {
-        const id = selectedProvinceObject.id;
-        const amphure = await axios.get(
-          `${
-            import.meta.env.VITE_VUE_APP_THAILAND
-          }thailand/amphure/by-province-id/${id}`
-        );
-
-        formData.value.selectedProvince = selectedProvinceObject;
-
-        amphuredropdown.value = amphure.data;
-      }
-    }
-    if (type === "tambon") {
-      const selectedAmphureObject = amphuredropdown.value.find(
-        (amphure) => amphure.name_th === formData.value.landlord_district
-      );
-
-      if (selectedAmphureObject) {
-        try {
-          const id = selectedAmphureObject.id;
-          const tambon = await axios.get(
-            `${
-              import.meta.env.VITE_VUE_APP_THAILAND
-            }thailand/tambon/by-amphure-id/${id}`
-          );
-          if (tambon.data && tambon.data.length > 0) {
-            formData.value.selectedAmphure = selectedAmphureObject;
-            formData.value.zip_code = null;
-            tambondropdown.value = tambon.data;
-            console.log("Tambon Dropdown:", tambondropdown.value); // เพิ่มบรรทัดนี้
-          } else {
-            console.error("ไม่พบข้อมูลตำบล");
-          }
-        } catch (error) {
-          console.error(error);
-        }
-      }
-    }
-  } catch (error) {
-    console.error(error);
-  }
-};
-
-const submitForm = async () => {
+const registerLandlord = async () => {
   try {
     const response = await axios.post(
-      `${import.meta.env.VITE_VUE_APP_TOSSAGUN_SHOP}/register/investor`,
+      `${import.meta.env.VITE_VUE_APP_TOSSAGUN_SHOP}/register/landlord`,
       formData
     );
-    console.log("response : ", response.data);
+    const res = response.data;
+    console.log("res : ", res);
   } catch (error) {
     console.log("error", error);
   }
 };
-getprovince();
 </script>
 
 <style scoped></style>
