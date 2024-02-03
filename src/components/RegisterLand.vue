@@ -3,7 +3,7 @@
   <div
     class="w-full h-screen bg-gradient-to-tl from-yellow-600 via-yellow-300 to-yellow-600"
   >
-    <div class="flex flex-col items-center justify-center rounded-xl">
+    <div class="flex flex-col items-center justify-center rounded-xl h-full">
       <img class="w-[30%]" src="../assets/logo-1.png" alt="" />
       <div class="mb-4">
         <label
@@ -41,11 +41,12 @@ import { useToast } from "primevue/usetoast";
 const toast = useToast();
 const tel = ref("");
 const router = useRouter();
+
 const checkMember = async () => {
   console.log("tel : ", tel.value);
   if (tel.value === "") {
-    showErrorTel();
     console.log("กรอกเบอร์โทร");
+    showErrorTel();
     return false;
   }
   try {
@@ -62,11 +63,11 @@ const checkMember = async () => {
     console.log("resrecom : ", resrecom);
     showSuccess();
     setTimeout(() => {
-      router.push("/allregister");
+      router.push("/placeregister");
     }, 2000);
   } catch (error) {
-    showError();
     console.log("error", error);
+    showError();
   }
 };
 const showSuccess = () => {
