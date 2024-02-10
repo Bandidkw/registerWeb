@@ -1,11 +1,18 @@
 <template>
-  <HomePage />
+  <div>
+    <HomePage v-if="$route.path === '/'" />
+    <router-view />
+  </div>
+  <Toast />
+  <ConfirmDialog />
 </template>
 <script>
-import HomePage from "./components/HomePage.vue"
+import HomePage from "./view/HomePage.vue";
+import RisterLandlord from "./components/register/LandlordView.vue";
 export default {
   components: {
-    HomePage
+    HomePage,
+    RisterLandlord
   }
 }
 </script>
