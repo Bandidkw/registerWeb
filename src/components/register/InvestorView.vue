@@ -5,7 +5,7 @@
                 <div class="grid border-round-3xl bg-login">
                     <div class="col-12 mt-3">
                         <label style="font-size: 30px; font-weight: 900; color: #000000;">ระบบลงทะเบียน
-                            (มีทุนไม่มีที่)</label>
+                            (มีทุน - ไม่มีสถานที่)</label>
                     </div>
                     <div class="col-12 md:col-6 mt-4">
                         <p class="absolute pt-0 pr-2 pb-0 pl-2 -mt-2 ml-2 bg-yellow-500 text-white border-round-3xl">
