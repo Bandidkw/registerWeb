@@ -1,8 +1,8 @@
 <template>
     <div class="container">
         <div class="col-12 md:col-5">
-            <!-- <img src="../assets/image/menu.png" alt="Image" style="width: 90%" /> -->
-            <img src="../assets/image/mascot1.png" alt="Image" style="width: 90%" />
+            <!-- <img src="../assets/image/platform.png" alt="Image" style="width: 90%" @click="$router.push('/otp/phone')" /> -->
+            <img src="../assets/image/rumruy.png" alt="Image" style="width: 100%" />
         </div>
         <div class="col-12 md:col-7">
             <div class="grid">
@@ -49,15 +49,15 @@
                         </template>
                         <template #footer>
                             <!-- <Button icon="" label="ลงทะเบียน" class="p-button-sm text-sm" /> -->
-                            <!-- <button type="button" class="accept-button"
-                                @click="$router.push('/register/invesment')">ลงทะเบียน</button> -->
-                            <button type="button" class="accept-button">ลงทะเบียน</button>
+                            <button type="button" class="accept-button"
+                                @click="$router.push('/register/outlay')">ลงทะเบียน</button>
                         </template>
                     </Card>
                 </div>
                 <div class="col-12 lg:col-5">
                     <!-- <Image src="/src/assets/image/invesment.png" alt="Image" width="300" preview /> -->
-                    <img src="../assets/image/invesment.png" alt="Image" style="width: 70%" />
+                    <img src="../assets/image/invesment.png" alt="Image" style="width: 70%"
+                        @click="$router.push('/register/outlay')" />
                 </div>
             </div>
             <div class="grid">
@@ -106,8 +106,8 @@ export default {
     width: 100%;
     height: 100%;
     /* height: 100vh; */
-    /* background-image: url("../assets/image/HomePage.jpg"); */
-    background-color: black;
+    background-image: url("../assets/image/background.jpg");
+    /* background-color: black; */
     background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;

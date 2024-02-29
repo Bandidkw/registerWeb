@@ -2,7 +2,25 @@
     <div class="containerregisterlandlord">
         <div class="modelregister">
             <section>
-                <div class="grid border-round-3xl bg-login">
+                <div class="grid border-round-3xl bg-login" v-if="step === 1">
+                    <div class="col-12 mt-3">
+                        <label style="font-size: 30px; font-weight: 900; color: #000000;">หนังสือให้ความยินยอม</label>
+                    </div>
+                    <div class="col-12">
+                        <ScrollPanel class="containercontract" style="height: 400px;">
+                            <div class="text-black devcontract" v-html="contract" />
+                        </ScrollPanel>
+                    </div>
+                    <div class="col-12 mt-3">
+                        <Checkbox v-model="checked" :binary="true" /> ยอมรับเงื่อนไขสัญญาข้างต้น และเซ็นสัญญาอิเล็กทรอนิกส์
+                        ถือว่าสัญญาฉบับนี้สมบูรณ์แบบและถูกต้องตามกฎหมาย
+                    </div>
+                    <div class="col-12 mt-3">
+                        <Button @click="confirmContract()" elevation="0" :loading="isLoading">ยอมรับเงื่อนไข</Button>
+                    </div>
+                </div>
+
+                <div class="grid border-round-3xl bg-login" v-if="step === 2">
                     <div class="col-12 mt-3">
                         <label style="font-size: 30px; font-weight: 900; color: #000000;">ระบบลงทะเบียน
                             (มีสถานที่ - ไม่มีทุน)</label>
@@ -94,6 +112,12 @@
                             @click="registor()">สมัครสมาชิก</Button>
                     </div>
                 </div>
+                <div class="grid border-round-3xl bg-login" v-if="step === 3">
+                    <div class="col-12">
+                        <img src="../../assets/image/finish1.jpg" alt="Image" style="width: 100%" />
+                        <Button class="mt-4 bg-yellow-500 border-round-3xl" @click="loginShop()">เข้าสู่ระบบ</Button>
+                    </div>
+                </div>
             </section>
         </div>
         <div class="logoregistor">
@@ -126,6 +150,9 @@ export default {
                 life: 3000,
             });
         });
+        await axios.post(`${process.env.VUE_APP_SHOP}/contract/PDPA`, null, {}).then((res) => {
+            this.contract = res.data.detail_html.body;
+        })
     },
     data: () => ({
         isLoading: false,
@@ -134,7 +161,13 @@ export default {
         item_amphure: [],
         item_tambon: [],
 
+        step: 1,
+        contract: "",
+        checked: false,
+
+        platform: false,
         tel_ref: "",
+        name_ref: "",
         name: "",
         username: "",
         password: "",
@@ -173,6 +206,30 @@ export default {
         },
         chooseTambon() {
             this.postcode = String(this.tambon.zip_code);
+        },
+        confirmContract() {
+            if (this.checked === false) {
+                // this.toast.info('กรุณาอ่านและยอมรับเงื่อนไข')
+                this.$toast.add({
+                    severity: "warn",
+                    summary: "แจ้งเตือน",
+                    detail: "กรุณาอ่านและยอมรับเงื่อนไขสัญญา",
+                    life: 3000,
+                });
+                return false;
+            } else {
+                this.$confirm.require({
+                    header: "หนังสือให้ความยินยอม",
+                    message: "ท่านยินยอมในการเปิดเผยข้อมูลส่วนบุคลคลใช่หรือไม่ ?",
+                    rejectIcon: "pi pi-times",
+                    rejectLabel: "ยกเลิก",
+                    acceptIcon: "pi pi-check",
+                    acceptLabel: "ยืนยัน",
+                    accept: () => {
+                        this.step = 2;
+                    }
+                })
+            }
         },
         async registor() {
             if (
@@ -233,6 +290,7 @@ export default {
                     life: 3000,
                 });
                 this.clearData();
+                this.step = 3;
             }).catch((err) => {
                 this.$toast.add({
                     severity: "danger",
@@ -257,6 +315,9 @@ export default {
             this.province = "";
             this.postcode = "";
         },
+        loginShop() {
+            window.location.href = "https://shop.tossaguns.com"
+        },
     }
 }
 </script>
@@ -280,7 +341,6 @@ export default {
 }
 
 .logoregistor {
-    margin-left: 3%;
     margin-bottom: 45%;
 }
 

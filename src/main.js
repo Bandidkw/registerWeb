@@ -1,7 +1,8 @@
-import {createApp} from "vue";
+import { createApp } from "vue";
 import "./style.css";
 import App from "./App.vue";
 import router from "./router/index";
+import store from "./store/index";
 
 //Prime Template
 import PrimeVue from "primevue/config";
@@ -23,6 +24,13 @@ import Image from "primevue/image";
 import Card from "primevue/card";
 import Dropdown from "primevue/dropdown";
 import InputMask from "primevue/inputmask";
+import Divider from "primevue/divider";
+import Checkbox from 'primevue/checkbox';
+import RadioButton from "primevue/radiobutton";
+import Dialog from "primevue/dialog";
+import InlineMessage from "primevue/inlinemessage";
+import Timeline from 'primevue/timeline';
+import ScrollPanel from "primevue/scrollpanel";
 
 const app = createApp(App);
 
@@ -30,6 +38,7 @@ app.use(ConfirmationService);
 app.use(ToastService);
 app.use(PrimeVue);
 app.use(router);
+app.use(store);
 
 app.component("ConfirmDialog", ConfirmDialog);
 app.component("Toast", Toast);
@@ -39,5 +48,12 @@ app.component("Image", Image);
 app.component("Card", Card);
 app.component("Dropdown", Dropdown);
 app.component("InputMask", InputMask);
+app.component("Divider", Divider);
+app.component("Checkbox", Checkbox);
+app.component("RadioButton", RadioButton);
+app.component("Dialog", Dialog);
+app.component("InlineMessage", InlineMessage);
+app.component("Timeline", Timeline);
+app.component("ScrollPanel", ScrollPanel);
 
 app.mount("#app");

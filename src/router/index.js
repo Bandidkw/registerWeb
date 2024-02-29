@@ -1,4 +1,4 @@
-import {createWebHistory, createRouter} from "vue-router";
+import { createWebHistory, createRouter } from "vue-router";
 
 const router = createRouter({
   history: createWebHistory(),
@@ -24,9 +24,24 @@ const router = createRouter({
       component: () => import("../components/register/InvestorView.vue"),
     },
     {
-      path: "/register/invesment",
-      name: "register-invesment",
-      component: () => import("../components/register/InvesmentView.vue"),
+      path: "/register/outlay",
+      name: "register-outlay",
+      component: () => import("../components/register/OutlayView.vue"),
+    },
+    {
+      path: "/otp/phone",
+      name: "otp-phone",
+      component: () => import("../components/platform/OTPView.vue"),
+    },
+    {
+      path: "/counselor",
+      name: "counselor",
+      component: () => import("../components/platform/CounselorView.vue"),
+    },
+    {
+      path: "/platform",
+      name: "platform",
+      component: () => import("../components/platform/PlatformView.vue"),
     },
   ],
 });

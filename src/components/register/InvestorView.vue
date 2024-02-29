@@ -2,16 +2,45 @@
     <div class="containerregisterinvestor">
         <div class="modelregister">
             <section>
-                <div class="grid border-round-3xl bg-login">
+                <div class="grid border-round-3xl bg-login" v-if="step === 1">
+                    <div class="col-12 mt-3">
+                        <label style="font-size: 30px; font-weight: 900; color: #000000;">หนังสือให้ความยินยอม</label>
+                    </div>
+                    <div class="col-12">
+                        <ScrollPanel class="containercontract" style="height: 400px;">
+                            <div class="text-black devcontract" v-html="contract" />
+                        </ScrollPanel>
+                    </div>
+                    <div class="col-12 mt-3">
+                        <Checkbox v-model="checked" :binary="true" /> ยอมรับเงื่อนไขสัญญาข้างต้น และเซ็นสัญญาอิเล็กทรอนิกส์
+                        ถือว่าสัญญาฉบับนี้สมบูรณ์แบบและถูกต้องตามกฎหมาย
+                    </div>
+                    <div class="col-12 mt-3">
+                        <Button @click="confirmContract()" elevation="0" :loading="isLoading">ยอมรับเงื่อนไข</Button>
+                    </div>
+                </div>
+                <div class="grid border-round-3xl bg-login" v-if="step === 2">
                     <div class="col-12 mt-3">
                         <label style="font-size: 30px; font-weight: 900; color: #000000;">ระบบลงทะเบียน
                             (มีทุน - ไม่มีสถานที่)</label>
                     </div>
-                    <div class="col-12 md:col-6 mt-4">
+                    <div class="col-12 md:col-5 mt-4">
                         <p class="absolute pt-0 pr-2 pb-0 pl-2 -mt-2 ml-2 bg-yellow-500 text-white border-round-3xl">
                             เบอร์โทรศัพท์ผู้แนะนำ : </p>
                         <InputMask mask="999-9999999" v-model="tel_ref" type="text" placeholder="กรอกเบอร์โทรศัพท์ผู้แนะนำ"
-                            class="w-full border-round-3xl" @change="choosePlatform" />
+                            class="w-full border-round-3xl" @change="choosePlatform" :disabled="isDisabled" />
+                    </div>
+                    <div class="col-12 md:col-5 mt-4">
+                        <p class="absolute pt-0 pr-2 pb-0 pl-2 -mt-2 ml-2 bg-yellow-500 text-white border-round-3xl">
+                            ชื่อผู้แนะนำ : </p>
+                        <InputText v-model="name_ref" type="text" placeholder="กรอกชื่อผู้แนะนำ"
+                            class="w-full border-round-3xl" disabled />
+                    </div>
+                    <div class="col-12 md:col-2 mt-4">
+                        <Button v-if="platform === false" class="bg-yellow-500 border-round-3xl w-full"
+                            style="border:1px #ffffff" @click="confirm_platform">ยืนยัน</Button>
+                        <Button v-if="platform === true" class="bg-yellow-500 border-round-3xl w-full"
+                            style="border:1px #ffffff" @click="reset_platform">เปลี่ยน</Button>
                     </div>
                     <div class="col-12">
                         <p class="absolute pt-0 pr-2 pb-0 pl-2 -mt-2 ml-2 bg-yellow-500 text-white border-round-3xl">
@@ -62,42 +91,35 @@
                             class="w-full border-round-3xl" />
                     </div>
                     <div class="col-12 md:col-4">
-                        <!-- <p class="absolute pt-0 pr-2 pb-0 pl-2 -mt-2 ml-2 bg-yellow-500 text-white border-round-3xl">
-                            จังหวัด :</p> -->
                         <Dropdown v-model="province" class="w-full border-round-3xl" inputClass="font"
                             :options="item_province" option-label="name_th" placeholder="เลือกจังหวัด" :filter="true"
                             filter-placeholder="ค้นหาจังหวัด" @change="chooseProvince" />
-                        <!-- <InputText v-model="province" type="text" placeholder="กรอกจังหวัด"
-                            class="w-full border-round-3xl" /> -->
                     </div>
                     <div class="col-12 md:col-4">
-                        <!-- <p class="absolute pt-0 pr-2 pb-0 pl-2 -mt-2 ml-2 bg-yellow-500 text-white border-round-3xl">
-                            อำเภอ :</p> -->
                         <Dropdown v-model="amphure" class="w-full border-round-3xl" inputClass="font"
                             :options="item_amphure" optionLabel="name_th" placeholder="เลือกเขต/อำเภอ" :filter="true"
                             filter-placeholder="ค้นหาเขต/อำเภอ" @change="chooseAmphure" />
-                        <!-- <InputText v-model="district" type="text" placeholder="กรอกอำเภอ" class="w-full border-round-3xl" /> -->
                     </div>
                     <div class="col-12 md:col-4">
-                        <!-- <p class="absolute pt-0 pr-2 pb-0 pl-2 -mt-2 ml-2 bg-yellow-500 text-white border-round-3xl">
-                            ตำบล :</p> -->
                         <Dropdown v-model="tambon" class="w-full border-round-3xl" inputClass="font" :options="item_tambon"
                             optionLabel="name_th" placeholder="เลือกแขวง/ตำบล" :filter="true"
                             filterPlaceholder="ค้นหาแขวง/ตำบล" @change="chooseTambon" />
-                        <!-- <InputText v-model="subdistrict" type="text" placeholder="กรอกตำบล"
-                            class="w-full border-round-3xl" /> -->
                     </div>
                     <div class="col-12 md:col-4">
                         <p class="absolute pt-0 pr-2 pb-0 pl-2 -mt-2 ml-2 bg-yellow-500 text-white border-round-3xl">
                             รหัสไปรษณีย์ :</p>
                         <InputMask mask="99999" v-model="postcode" inputClass="font" class="w-full font border-round-3xl"
                             placeholder="รหัสไปรษณีย์" />
-                        <!-- <InputText v-model="postcode" type="text" placeholder="กรอกรหัสไปรษณีย์"
-                            class="w-full border-round-3xl" /> -->
                     </div>
                     <div class="col-12 mt-5">
                         <Button class="bg-yellow-500 border-round-3xl" style="border:1px #ffffff"
                             @click="registor()">สมัครสมาชิก</Button>
+                    </div>
+                </div>
+                <div class="grid border-round-3xl bg-login" v-if="step === 3">
+                    <div class="col-12">
+                        <img src="../../assets/image/finish1.jpg" alt="Image" style="width: 100%" />
+                        <Button class="mt-4 bg-yellow-500 border-round-3xl" @click="loginShop()">เข้าสู่ระบบ</Button>
                     </div>
                 </div>
             </section>
@@ -132,15 +154,25 @@ export default {
                 life: 3000,
             });
         });
+        await axios.post(`${process.env.VUE_APP_SHOP}/contract/PDPA`, null, {}).then((res) => {
+            this.contract = res.data.detail_html.body;
+        });
     },
     data: () => ({
+        isDisabled: false,
         isLoading: false,
 
         item_province: [],
         item_amphure: [],
         item_tambon: [],
 
+        step: 1,
+        contract: "",
+        checked: false,
+
+        platform: false,
         tel_ref: "",
+        name_ref: "",
         name: "",
         username: "",
         password: "",
@@ -180,12 +212,37 @@ export default {
         chooseTambon() {
             this.postcode = String(this.tambon.zip_code);
         },
+        confirmContract() {
+            if (this.checked === false) {
+                // this.toast.info('กรุณาอ่านและยอมรับเงื่อนไข')
+                this.$toast.add({
+                    severity: "warn",
+                    summary: "แจ้งเตือน",
+                    detail: "กรุณาอ่านและยอมรับเงื่อนไขสัญญา",
+                    life: 3000,
+                });
+                return false;
+            } else {
+                this.$confirm.require({
+                    header: "หนังสือให้ความยินยอม",
+                    message: "ท่านยินยอมในการเปิดเผยข้อมูลส่วนบุคลคลใช่หรือไม่ ?",
+                    rejectIcon: "pi pi-times",
+                    rejectLabel: "ยกเลิก",
+                    acceptIcon: "pi pi-check",
+                    acceptLabel: "ยืนยัน",
+                    accept: () => {
+                        this.step = 2;
+                    }
+                })
+            }
+        },
         async choosePlatform() {
             this.isLoading = true;
             this.tel_ref = this.tel_ref.replace("-", "");
             await axios.post(`${process.env.VUE_APP_SHOP}/platform/checkMember/${this.tel_ref}`
             ).then((res) => {
                 this.isLoading = false;
+                this.name_ref = res.data.name;
                 this.$toast.add({
                     severity: "success",
                     summary: "สำเร็จ",
@@ -199,6 +256,45 @@ export default {
                     detail: err.message,
                     life: 3000,
                 });
+            })
+        },
+        confirm_platform() {
+            if (this.tel_ref === "" && this.name_ref === "") {
+                this.$toast.add({
+                    severity: "warn",
+                    summary: "แจ้งเตือน",
+                    detail: "กรุณากรอกเบอร์ผู้แนะนำ",
+                    life: 3000,
+                });
+                return false;
+            }
+            this.$confirm.require({
+                header: "ผู้แนะนำ",
+                message: `ผู้แนะนำของท่านคือ ${this.name_ref} ใช่หรือไม่ ?`,
+                rejectIcon: "pi pi-times",
+                rejectLabel: "ยกเลิก",
+                acceptIcon: "pi pi-check",
+                acceptLabel: "ยืนยัน",
+                accept: () => {
+                    this.platform = true;
+                    this.isDisabled = true;
+                }
+            })
+        },
+        reset_platform() {
+            this.$confirm.require({
+                header: "เปลี่ยนผู้แนะนำ",
+                message: `ท่านต้องการเปลี่ยนผู้แนะนำ ${this.name_ref} ใช่หรือไม่ ?`,
+                rejectIcon: "pi pi-times",
+                rejectLabel: "ยกเลิก",
+                acceptIcon: "pi pi-check",
+                acceptLabel: "ยืนยัน",
+                accept: () => {
+                    this.tel_ref = "";
+                    this.name_ref = "";
+                    this.platform = false;
+                    this.isDisabled = false;
+                }
             })
         },
         async registor() {
@@ -260,6 +356,7 @@ export default {
                     life: 3000,
                 });
                 this.clearData();
+                this.step = 3;
             }).catch((err) => {
                 this.$toast.add({
                     severity: "danger",
@@ -283,6 +380,9 @@ export default {
             this.amphure = "";
             this.province = "";
             this.postcode = "";
+        },
+        loginShop() {
+            window.location.href = "https://shop.tossaguns.com"
         },
     }
 }
@@ -308,5 +408,17 @@ export default {
     background-repeat: no-repeat;
     background-position: center center;
     padding: 1.5rem;
+}
+
+.containercontract {
+    overflow: auto;
+    /* border-style: solid; */
+    border-width: 1px;
+    border-radius: 10px;
+}
+
+.devcontract {
+    padding: 15px;
+    text-align: left;
 }
 </style>
